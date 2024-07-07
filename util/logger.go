@@ -10,36 +10,36 @@ import (
 )
 
 var (
-	LogRus *logrus.Logger
+	Logger *logrus.Logger
 )
 
-func InitLog(configFile string) {
+func InitLogger(configFile string) {
 	viper := ParseConfig(configFile)
-	LogRus = logrus.New()
+	Logger = logrus.New()
 
 	switch strings.ToLower(viper.GetString("level")) {
 	case "debug":
-		LogRus.SetLevel(logrus.DebugLevel)
+		Logger.SetLevel(logrus.DebugLevel)
 	case "info":
-		LogRus.SetLevel(logrus.InfoLevel)
+		Logger.SetLevel(logrus.InfoLevel)
 	case "warn":
-		LogRus.SetLevel(logrus.WarnLevel)
+		Logger.SetLevel(logrus.WarnLevel)
 	case "error":
-		LogRus.SetLevel(logrus.ErrorLevel)
+		Logger.SetLevel(logrus.ErrorLevel)
 	case "panic":
-		LogRus.SetLevel(logrus.PanicLevel)
+		Logger.SetLevel(logrus.PanicLevel)
 	default:
 		panic(fmt.Errorf("invalid log level: %s", viper.GetString("level")))
 	}
 
-	LogRus.SetFormatter(&logrus.TextFormatter{
+	Logger.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05.000",
 	})
 
 	logFile := ProjectRootPath + viper.GetString("file")
 	fout, err := rotatelogs.New(
 		// 指定日志文件的路径和名称, 路径不存在时会创建
-		logFile+".%Y%m%d%H%M",
+		logFile+".%Y%m%d%H",
 		// 为最新的一份日志创建软链接
 		rotatelogs.WithLinkName(logFile),
 		// 每隔一小时生成一份新的日志文件
@@ -53,7 +53,7 @@ func InitLog(configFile string) {
 	}
 
 	// 设置日志文件
-	LogRus.SetOutput(fout)
+	Logger.SetOutput(fout)
 	// 输出是从哪里调起的日志打印
-	LogRus.SetReportCaller(true)
+	Logger.SetReportCaller(true)
 }
