@@ -46,8 +46,8 @@ func TestParseConfig_2(t *testing.T) {
 	}
 
 	type Config struct {
-		AppName  string   `json:"app-name" mapstructure:"app-name"`
-		UserInfo UserInfo `json:"user-info" mapstructure:"user-info"`
+		AppName  string   `yaml:"app-name" mapstructure:"app-name"`
+		UserInfo UserInfo `yaml:"user-info" mapstructure:"user-info"`
 	}
 
 	var config Config
