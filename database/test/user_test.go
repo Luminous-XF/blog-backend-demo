@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetUserByUsername(t *testing.T) {
-	user, err := database.GetUserByUsername("193801203191")
+	user, err := database.GetUserByUsername("19380120319")
 	if err != nil {
 		fmt.Println(err)
 		t.Fail()
