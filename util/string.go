@@ -18,8 +18,8 @@ const (
 
 var src = rand.NewSource(time.Now().UnixNano())
 
-// GenerateString 生成包含大小写字母指定长度随机字符串
-func GenerateString(length int) string {
+// GenerateSalt 生成包含大小写字母指定长度随机字符串
+func GenerateSalt(length int) string {
 	str := make([]byte, length)
 	for i, cache, remain := length-1, src.Int63(), letterIdxMax; i >= 0; {
 		if remain == 0 {
@@ -36,6 +36,7 @@ func GenerateString(length int) string {
 	return *(*string)(unsafe.Pointer(&str))
 }
 
+// CamelToSnake 驼峰命名转下划线命名(蛇形命名)
 func CamelToSnake(camelStr string) string {
 	matched1, _ := regexp.MatchString(`([a-z])`, camelStr)
 	matched2, _ := regexp.MatchString(`([A-Z])`, camelStr)

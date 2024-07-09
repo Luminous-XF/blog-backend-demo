@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// go test -v .\database\test\ -run=^TestGetPostById$ -count=1
 func TestGetPostById(t *testing.T) {
 	post, err := database.GetPostById(1)
 	if err != nil {
@@ -16,8 +17,9 @@ func TestGetPostById(t *testing.T) {
 	fmt.Printf("%#v\n", post)
 }
 
-func TestGetPostByUserId(t *testing.T) {
-	postList, err := database.GetPostByUserId(1)
+// go test -v .\database\test\ -run=^TestGetPostByAuthorId$ -count=1
+func TestGetPostByAuthorId(t *testing.T) {
+	postList, err := database.GetPostByAuthorId(1)
 	if err != nil {
 		fmt.Println(err)
 		t.Fail()

@@ -3,9 +3,10 @@ package database
 import (
 	"blog-backend/util"
 	"fmt"
+	"time"
+
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
-	"time"
 )
 
 // Type 帖子类型枚举
@@ -26,16 +27,10 @@ const (
 	BLOCKED Status = "BLOCKED"
 )
 
-type RowStatus string
-
-const (
-	EXISTS RowStatus = "EXISTS"
-	DELETE RowStatus = "DELETE"
-)
-
 type Post struct {
+	Uuid         string    `gorm:"column:uuid"`
 	Id           int       `gorm:"id;AUTO_INCREMENT;primary_key"`
-	UserId       int       `gorm:"user_id"`
+	AuthorId     int       `gorm:"author_id"`
 	Title        string    `gorm:"title"`
 	Content      string    `gorm:"content"`
 	Type         Type      `gorm:"type"`
@@ -46,7 +41,11 @@ type Post struct {
 	PageViews    int64     `gorm:"page_views"`
 	CreateTime   time.Time `gorm:"create_time"`
 	UpdateTime   time.Time `gorm:"update_time"`
-	RowStatus    RowStatus `gorm:"row_status"`
+
+	RowVersion    int       `gorm:"column:row_version"`
+	RowCreateTime time.Time `gorm:"column:row_create_time"`
+	RowUpdateTime time.Time `gorm:"column:row_update_time"`
+	RowIsDeleted  int       `gorm:"column:row_is_deleted"`
 }
 
 func (Post) TableName() string {
@@ -62,9 +61,9 @@ func GetPostById(id int) (*Post, error) {
 	db := GetBlogDBConnection()
 
 	var post Post
-	if err := db.Select(allPostField).Where("id = ? AND row_status = ?", id, EXISTS).First(&post).Error; err != nil {
+	if err := db.Select(allPostField).Where("id = ?", id).First(&post).Error; err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
-			util.Logger.Errorf("get password of user %d failed: %s", id, err)
+			util.Logger.Errorf("get password of user '%d' failed: '%s'", id, err)
 		}
 		return nil, err
 	}
@@ -72,14 +71,14 @@ func GetPostById(id int) (*Post, error) {
 	return &post, nil
 }
 
-// GetPostByUserId 根据 user_id 查询该用户发布的帖子列表
-func GetPostByUserId(userId int) ([]*Post, error) {
+// GetPostByAuthorId 根据 user_id 查询该用户发布的帖子列表
+func GetPostByAuthorId(userId int) ([]*Post, error) {
 	db := GetBlogDBConnection()
 
 	var posts []*Post
-	if err := db.Select(allPostField).Where("user_id = ?", userId).Find(&posts).Error; err != nil {
+	if err := db.Select(allPostField).Where("author_id = ?", userId).Find(&posts).Error; err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
-			util.Logger.Errorf("get post by user %d failed: %s", userId, err)
+			util.Logger.Errorf("get post by user '%d' failed: '%s'", userId, err)
 		}
 		return nil, err
 	}
@@ -89,7 +88,7 @@ func GetPostByUserId(userId int) ([]*Post, error) {
 
 func UpdatePost(post *Post) error {
 	if post.Id <= 0 {
-		return fmt.Errorf("could not update blog of id %d", post.Id)
+		return fmt.Errorf("could not update blog of id = '%d'", post.Id)
 	}
 
 	if len(post.Title) == 0 || len(post.Content) == 0 {
