@@ -34,3 +34,10 @@ func TestCamelToSnake(t *testing.T) {
 	camelStr = "This_Is_CamelCase"
 	fmt.Printf("'%s' -> '%s'\n", camelStr, util.CamelToSnake(camelStr))
 }
+
+func TestGenerateString(t *testing.T) {
+	for i := 0; i < 10000; i++ {
+		str := util.GenerateString(16)
+		fmt.Println(str)
+	}
+}
