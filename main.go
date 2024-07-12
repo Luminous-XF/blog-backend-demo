@@ -1,14 +1,13 @@
 package main
 
-import (
-	"blog-backend/util"
-)
+import "blog-backend/initialize"
 
-func Init() {
-	util.InitLogger("log")
+func init() {
+	if err := initialize.InitProject(); err != nil {
+		panic(err)
+	}
 }
 
 func main() {
-	Init()
 
 }

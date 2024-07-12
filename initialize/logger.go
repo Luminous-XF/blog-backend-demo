@@ -1,23 +1,20 @@
-package util
+package initialize
 
 import (
+	"blog-backend/global"
 	"fmt"
-	"strings"
-	"time"
-
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/sirupsen/logrus"
+	"strings"
+	"time"
 )
 
-var (
-	Logger *logrus.Logger
-)
+func initLogger() (Logger *logrus.Logger) {
+	logConfig := global.CONFIG.LogConfig
 
-func InitLogger(configFile string) {
-	viper := ParseConfig(configFile)
 	Logger = logrus.New()
 
-	switch strings.ToLower(viper.GetString("level")) {
+	switch strings.ToLower(logConfig.Level) {
 	case "debug":
 		Logger.SetLevel(logrus.DebugLevel)
 	case "info":
@@ -29,14 +26,15 @@ func InitLogger(configFile string) {
 	case "panic":
 		Logger.SetLevel(logrus.PanicLevel)
 	default:
-		panic(fmt.Errorf("invalid log level: %s", viper.GetString("level")))
+		panic(fmt.Errorf("invalid log level: %s", logConfig.Level))
+		return nil
 	}
 
 	Logger.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05.000",
 	})
 
-	logFile := ProjectRootPath + viper.GetString("file")
+	logFile := global.ProjectRootPath + "/" + logConfig.File
 	fout, err := rotatelogs.New(
 		// 指定日志文件的路径和名称, 路径不存在时会创建
 		logFile+".%Y%m%d%H",
@@ -49,11 +47,14 @@ func InitLogger(configFile string) {
 	)
 
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("init logger err: %s", err))
+		return nil
 	}
 
 	// 设置日志文件
 	Logger.SetOutput(fout)
 	// 输出是从哪里调起的日志打印
 	Logger.SetReportCaller(true)
+
+	return
 }

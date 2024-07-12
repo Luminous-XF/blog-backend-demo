@@ -1,0 +1,22 @@
+# 日志相关配置
+log:
+  level: debug
+  file: log/blog-backend.log
+
+
+# MySQL相关配置
+mysql:
+  max_open_connections: 100
+  max_idle_connections: 20
+
+
+# 数据库相关配置
+database:
+  type: mysql
+  name: blog_dev
+  host: luminous-database-001.sql.com
+  port: 63478
+  user: wxf
+  password: wK4&nW8*wM9_pV9#
+
+

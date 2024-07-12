@@ -1,7 +1,7 @@
 package test
 
 import (
-	"blog-backend/util"
+	"blog-backend/utils"
 	"fmt"
 	"testing"
 )
@@ -9,7 +9,7 @@ import (
 func TestMd5(t *testing.T) {
 	password := "abc@123"
 	salt := "RyWHw43b1Zgd2ucu"
-	str := util.Md5(password + salt)
+	str := utils.Md5(password + salt)
 
 	fmt.Println(str)
 }

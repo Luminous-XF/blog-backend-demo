@@ -2,8 +2,10 @@ package test
 
 import (
 	"blog-backend/database"
-	"blog-backend/util"
+	"blog-backend/model"
+	"blog-backend/utils"
 	"fmt"
+	"github.com/google/uuid"
 	"testing"
 )
 
@@ -14,18 +16,45 @@ func TestGetUserByUsername(t *testing.T) {
 		fmt.Println(err)
 		t.Fail()
 	}
+	fmt.Printf("%#v\n", user)
+}
 
+// go test -v .\database\test\ -run=^TestGetUserByID$ -count=1
+func TestGetUserByID(t *testing.T) {
+	user, err := database.GetUserByID(1)
+	if err != nil {
+		fmt.Println(err)
+		t.Fail()
+	}
+	fmt.Printf("%#v\n", user)
+}
+
+// go test -v .\database\test\ -run=^TestGetUserByUUID$ -count=1
+func TestGetUserByUUID(t *testing.T) {
+	user, err := database.GetUserByUUID("c7ac28ba-3fdd-11ef-a62c-20906f8b3d78")
+	if err != nil {
+		fmt.Println(err)
+		t.Fail()
+	}
 	fmt.Printf("%#v\n", user)
 }
 
 // go test -v .\database\test\ -run=^TestCreateUser$ -count=1
 func TestCreateUser(t *testing.T) {
-	database.CreateUser("IU", util.GenerateSalt(8)+"@qq.com", "abc@123")
-}
+	uid := uuid.New()
+	salt := utils.GenerateSalt(16)
+	var user = model.User{
+		UUID:     uid,
+		Username: "IU",
+		Password: utils.Md5("abc@123" + salt),
+		Salt:     salt,
+		Email:    utils.GenerateSalt(10) + "@gmail.com",
+	}
 
-func TestDeleteUserByUsername(t *testing.T) {
-	if err := database.DeleteUserByUsername("IU"); err != nil {
+	if err := database.CreateUser(&user); err != nil {
 		fmt.Println(err)
 		t.Fail()
 	}
+
+	fmt.Printf("%#v\n", user)
 }

@@ -2,6 +2,7 @@ package test
 
 import (
 	"blog-backend/database"
+	"blog-backend/model"
 	"fmt"
 	"testing"
 )
@@ -30,15 +31,19 @@ func TestGetPostByAuthorId(t *testing.T) {
 	}
 }
 
+// go test -v .\database\test\ -run=^TestUpdatePost$ -count=1
 func TestUpdatePost(t *testing.T) {
-	var post database.Post
-	post.Id = 1
-	post.Title = "xxx"
-	post.Content = "XXX"
+	var post model.Post
+	post.ID = 1
+	post.Title = "111"
+	post.Content = "222"
+	post.Excerpt = "333"
 
-	err := database.UpdatePost(&post)
+	newPost, err := database.UpdatePost(&post)
 	if err != nil {
 		fmt.Println(err)
 		t.Fail()
 	}
+
+	fmt.Printf("%#v\n", newPost)
 }
