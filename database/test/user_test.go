@@ -42,13 +42,13 @@ func TestGetUserByUUID(t *testing.T) {
 // go test -v .\database\test\ -run=^TestCreateUser$ -count=1
 func TestCreateUser(t *testing.T) {
 	uid := uuid.New()
-	salt := utils.GenerateSalt(16)
+	salt := utils.MakeStr(16, utils.DIGIT_ALPHA_PUNCT)
 	var user = model.User{
 		UUID:     uid,
 		Username: "IU",
 		Password: utils.Md5("abc@123" + salt),
 		Salt:     salt,
-		Email:    utils.GenerateSalt(10) + "@gmail.com",
+		Email:    utils.MakeStr(10, utils.ALPHA) + "@gmail.com",
 	}
 
 	if err := database.CreateUser(&user); err != nil {

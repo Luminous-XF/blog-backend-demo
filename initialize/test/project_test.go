@@ -1,7 +1,9 @@
 package test
 
 import (
+	"blog-backend/global"
 	"blog-backend/initialize"
+	"fmt"
 	"testing"
 )
 
@@ -11,4 +13,6 @@ func TestInitProject(t *testing.T) {
 		t.Error(err)
 		t.Fail()
 	}
+
+	fmt.Printf("%#v\n", global.CONFIG.ServerConfig)
 }

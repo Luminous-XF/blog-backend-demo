@@ -31,7 +31,7 @@ func TestGetPostByAuthorId(t *testing.T) {
 	}
 }
 
-// go test -v .\database\test\ -run=^TestUpdatePost$ -count=1
+// go: go test -v .\database\test\ -run=^TestUpdatePost$ -count=1
 func TestUpdatePost(t *testing.T) {
 	var post model.Post
 	post.ID = 1

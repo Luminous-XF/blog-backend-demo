@@ -2,9 +2,12 @@ package initialize
 
 import (
 	"blog-backend/global"
+	"fmt"
 	"github.com/pkg/errors"
+	"net/http"
 	"path"
 	"runtime"
+	"time"
 )
 
 func InitProject() error {
@@ -27,6 +30,24 @@ func InitProject() error {
 	global.GDB = initDB()
 	if global.GDB == nil {
 		return errors.New("数据库连接失败!")
+	}
+
+	// gin router 路由配置
+	routers := Routers()
+	addr := fmt.Sprintf(":%d", global.CONFIG.ServerConfig.Addr)
+	ReadTimeout := global.CONFIG.ServerConfig.ReadTimeout
+	WriteTimeout := global.CONFIG.ServerConfig.WriteTimeout
+
+	s := &http.Server{
+		Addr:           addr,
+		Handler:        routers,
+		ReadTimeout:    ReadTimeout * time.Second,
+		WriteTimeout:   WriteTimeout * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	if err := s.ListenAndServe(); err != nil {
+		return errors.New("System Server Start Error!")
 	}
 
 	return nil

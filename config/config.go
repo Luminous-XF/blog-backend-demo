@@ -1,7 +1,10 @@
 package config
 
+import "time"
+
 // Config 全局配置信息
 type Config struct {
+	ServerConfig   ServerConfig   `yaml:"server" mapstructure:"server"`
 	LogConfig      LogConfig      `yaml:"log" mapstructure:"log"`
 	MySQLConfig    MySQLConfig    `yaml:"mysql" mapstructure:"mysql"`
 	DatabaseConfig DatabaseConfig `yaml:"database" mapstructure:"database"`
@@ -15,8 +18,8 @@ type LogConfig struct {
 
 // MySQLConfig MySQL配置信息
 type MySQLConfig struct {
-	MaxOpenConnections int `yaml:"max_open_connections" mapstructure:"max_open_connections"`
-	MaxIdleConnections int `yaml:"max_idle_connections" mapstructure:"max_idle_connections"`
+	MaxOpenConnections int `yaml:"maxOpenConnections" mapstructure:"maxOpenConnections"`
+	MaxIdleConnections int `yaml:"maxIdleConnections" mapstructure:"maxIdleConnections"`
 }
 
 // DatabaseConfig 数据库配置信息
@@ -27,4 +30,12 @@ type DatabaseConfig struct {
 	Port     string `yaml:"port" mapstructure:"port"`
 	User     string `yaml:"user" mapstructure:"user"`
 	Password string `yaml:"password" mapstructure:"password"`
+}
+
+// ServerConfig 服务器配置信息
+type ServerConfig struct {
+	Mode         string        `yaml:"mode" mapstructure:"mode"`
+	Addr         int           `yaml:"addr" mapstructure:"addr"`
+	ReadTimeout  time.Duration `yaml:"readTimeout" mapstructure:"readTimeout"`
+	WriteTimeout time.Duration `yaml:"writeTimeout" mapstructure:"writeTimeout"`
 }

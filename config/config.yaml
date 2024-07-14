@@ -1,3 +1,11 @@
+# 服务器相关配置
+server:
+  mode: debug
+  addr: 8080
+  readTimeout: 60
+  writeTimeout: 60
+
+
 # 日志相关配置
 log:
   level: debug
@@ -6,8 +14,8 @@ log:
 
 # MySQL相关配置
 mysql:
-  max_open_connections: 100
-  max_idle_connections: 20
+  maxOpenConnections: 100
+  maxIdleConnections: 20
 
 
 # 数据库相关配置

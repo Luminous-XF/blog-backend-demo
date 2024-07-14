@@ -8,7 +8,17 @@ import (
 
 func TestGenerateString(t *testing.T) {
 	for i := 0; i < 10000; i++ {
-		str := utils.GenerateSalt(16)
+		var str string
+		str = utils.MakeStr(16, utils.DIGIT)
+		fmt.Println(str)
+
+		str = utils.MakeStr(16, utils.ALPHA)
+		fmt.Println(str)
+
+		str = utils.MakeStr(6, utils.DIGIT_ALPHA)
+		fmt.Println(str)
+
+		str = utils.MakeStr(16, utils.DIGIT_ALPHA_PUNCT)
 		fmt.Println(str)
 	}
 }
