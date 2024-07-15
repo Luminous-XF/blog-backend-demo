@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routers() (router *gin.Engine) {
+func initRouters() (router *gin.Engine) {
 	router = gin.Default()
 	router.Use(middleware.Cors())
 	router.Use(middleware.AddTracID())
@@ -14,6 +14,7 @@ func Routers() (router *gin.Engine) {
 	privateGroupV1 := router.Group("v1")
 	{
 		routers.InitUserRouter(privateGroupV1)
+		routers.InitPostRouter(privateGroupV1)
 	}
 
 	return router

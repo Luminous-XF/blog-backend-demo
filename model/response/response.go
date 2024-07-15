@@ -1,18 +1,19 @@
 package response
 
 import (
+	"blog-backend/common/error_code"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type Response struct {
-	Code    ErrorCode   `json:"code,omitempty"`
-	Data    interface{} `json:"data,omitempty"`
-	Msg     string      `json:"msg,omitempty"`
-	TraceId string      `json:"traceId,omitempty"`
+	Code    error_code.ErrorCode `json:"code,omitempty"`
+	Data    interface{}          `json:"data,omitempty"`
+	Msg     string               `json:"msg,omitempty"`
+	TraceId string               `json:"traceId,omitempty"`
 }
 
-func Unauthorized(code ErrorCode, msg string, ctx *gin.Context) {
+func Unauthorized(code error_code.ErrorCode, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusUnauthorized, Response{
 		Code:    code,
 		Msg:     msg,
@@ -20,7 +21,7 @@ func Unauthorized(code ErrorCode, msg string, ctx *gin.Context) {
 	})
 }
 
-func PermissionDenied(code ErrorCode, msg string, ctx *gin.Context) {
+func PermissionDenied(code error_code.ErrorCode, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusForbidden, Response{
 		Code:    code,
 		Msg:     msg,
@@ -30,7 +31,7 @@ func PermissionDenied(code ErrorCode, msg string, ctx *gin.Context) {
 
 func NotFound(ctx *gin.Context) {
 	ctx.JSON(http.StatusNotFound, Response{
-		Code:    ERROR,
+		Code:    error_code.ERROR,
 		Msg:     "404 not found",
 		TraceId: ctx.GetHeader("Trace-Id"),
 	})
@@ -49,7 +50,7 @@ func DeleteSuccess(ctx *gin.Context) {
 	})
 }
 
-func CommonFailed(code ErrorCode, msg string, ctx *gin.Context) {
+func CommonFailed(code error_code.ErrorCode, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusBadRequest, Response{
 		Code:    code,
 		Msg:     msg,
@@ -57,7 +58,7 @@ func CommonFailed(code ErrorCode, msg string, ctx *gin.Context) {
 	})
 }
 
-func CommonSuccess(code ErrorCode, data interface{}, msg string, ctx *gin.Context) {
+func CommonSuccess(code error_code.ErrorCode, data interface{}, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, Response{
 		Code:    code,
 		Data:    data,
@@ -66,7 +67,7 @@ func CommonSuccess(code ErrorCode, data interface{}, msg string, ctx *gin.Contex
 	})
 }
 
-func SuccessWithMessage(code ErrorCode, msg string, ctx *gin.Context) {
+func SuccessWithMessage(code error_code.ErrorCode, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, Response{
 		Code:    code,
 		Msg:     msg,
@@ -76,7 +77,7 @@ func SuccessWithMessage(code ErrorCode, msg string, ctx *gin.Context) {
 
 func Created(data interface{}, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, Response{
-		Code:    SUCCESS,
+		Code:    error_code.SUCCESS,
 		Data:    data,
 		Msg:     msg,
 		TraceId: ctx.GetHeader("Trace-Id"),
@@ -92,7 +93,7 @@ func Accepted(fileUploadStatus interface{}, ctx *gin.Context) {
 	})
 }
 
-func Result(code ErrorCode, data interface{}, msg string, ctx *gin.Context) {
+func Result(code error_code.ErrorCode, data interface{}, msg string, ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, Response{
 		Code:    code,
 		Data:    data,

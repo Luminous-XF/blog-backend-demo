@@ -8,16 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Login(ctx *gin.Context) {
-	var loginForm request.LoginByUsernameAndPasswordRequest
-	if err := ctx.ShouldBindBodyWithJSON(&loginForm); err != nil {
+func GetPostList(ctx *gin.Context) {
+	var pageInfoForm request.PageInfoRequest
+	if err := ctx.ShouldBindBodyWithJSON(&pageInfoForm); err != nil {
 		response.CommonFailed(error_code.ParamBindError, error_code.ErrMsg(error_code.ParamBindError), ctx)
 		return
 	}
 
-	if code := service.LoginByUsernameAndPassword(loginForm); !error_code.IsSuccess(code) {
+	if postList, code := service.GetPostList(pageInfoForm); !error_code.IsSuccess(code) {
 		response.CommonFailed(code, error_code.ErrMsg(code), ctx)
 	} else {
-		response.SuccessWithMessage(code, error_code.ErrMsg(code), ctx)
+		response.CommonSuccess(code, postList, error_code.ErrMsg(code), ctx)
 	}
 }

@@ -12,8 +12,8 @@ func GetUserByUsername(username string) (user *model.User, err error) {
 }
 
 // GetUserByID 通过 ID 查找用户
-func GetUserByID(id int64) (user *model.User, err error) {
-	err = global.GDB.Where("id = ?", id).First(&user).Error
+func GetUserByID(id uint64) (user *model.User, err error) {
+	err = global.GDB.First(&user, id).Error
 	return user, err
 }
 

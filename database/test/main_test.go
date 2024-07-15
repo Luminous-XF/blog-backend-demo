@@ -14,7 +14,7 @@ func TestMain(m *testing.M) {
 }
 
 func before() {
-	if err := initialize.InitProject(); err != nil {
+	if err := initialize.InitProjectForTest(); err != nil {
 		panic(err)
 	}
 }

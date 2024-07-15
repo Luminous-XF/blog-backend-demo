@@ -3,6 +3,7 @@ package test
 import (
 	"blog-backend/database"
 	"blog-backend/model"
+	"blog-backend/model/request"
 	"fmt"
 	"testing"
 )
@@ -31,7 +32,7 @@ func TestGetPostByAuthorId(t *testing.T) {
 	}
 }
 
-// go: go test -v .\database\test\ -run=^TestUpdatePost$ -count=1
+// go test -v .\database\test\ -run=^TestUpdatePost$ -count=1
 func TestUpdatePost(t *testing.T) {
 	var post model.Post
 	post.ID = 1
@@ -46,4 +47,21 @@ func TestUpdatePost(t *testing.T) {
 	}
 
 	fmt.Printf("%#v\n", newPost)
+}
+
+// go test -v .\database\test\ -run=^TestGetPostListByCreateTime$ -count=1
+func TestGetPostListByCreateTime(t *testing.T) {
+	pageInfo := request.PageInfoRequest{
+		Page:     1,
+		PageSize: 1,
+	}
+	postList, err := database.GetPostList(pageInfo.Page, pageInfo.PageSize)
+	if err != nil {
+		fmt.Println(err)
+		t.Fail()
+	}
+
+	for _, post := range postList {
+		fmt.Printf("%#v\n", post)
+	}
 }

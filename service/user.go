@@ -1,67 +1,67 @@
 package service
 
 import (
+	"blog-backend/common/error_code"
 	"blog-backend/database"
 	"blog-backend/model"
 	"blog-backend/model/request"
-	"blog-backend/model/response"
 	"blog-backend/utils"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
-func LoginByUsernameAndPassword(loginForm request.LoginByUsernamePassword) response.ErrorCode {
-	if code := checkUsername(loginForm.Username); !response.IsSuccess(code) {
+func LoginByUsernameAndPassword(loginForm request.LoginByUsernameAndPasswordRequest) (code error_code.ErrorCode) {
+	if code = checkUsername(loginForm.Username); !error_code.IsSuccess(code) {
 		return code
 	}
 
-	if code := checkPassword(loginForm.Username, loginForm.Password); !response.IsSuccess(code) {
+	if code = checkPassword(loginForm.Username, loginForm.Password); !error_code.IsSuccess(code) {
 		return code
 	}
 
-	return response.LoginSuccess
+	return error_code.SUCCESS
 }
 
-func checkUsername(username string) response.ErrorCode {
+func checkUsername(username string) error_code.ErrorCode {
 	length := len(username)
 
 	// 判断用户名是否为空
 	if length == 0 {
-		return response.UsernameCanNotBlank
+		return error_code.UsernameCanNotBlank
 	}
 
 	// 检查用户名长度
 	if length < 3 || length > 16 {
-		return response.IllegalUsernameLength
+		return error_code.IllegalUsernameLength
 	}
 
 	// 判断用户名是否存在
 	if ok, err := isUsernameExist(username); !ok && err != nil {
-		return response.UsernameIsNotExist
+		return error_code.UsernameIsNotExist
 	}
 
-	return response.SUCCESS
+	return error_code.SUCCESS
 }
 
-func checkPassword(username, password string) response.ErrorCode {
+func checkPassword(username, password string) error_code.ErrorCode {
 	length := len(password)
 
 	// 判断密码是否为空
 	if length == 0 {
-		return response.PasswordCanNotBlank
+		return error_code.PasswordCanNotBlank
 	}
 
 	// 检查密码长度
 	if length < 8 || length > 16 {
-		return response.IllegalPasswordLength
+		return error_code.IllegalPasswordLength
 	}
 
 	// 校验密码
 	if !verifyPassword(username, password) {
-		return response.PasswordVerifyFail
+		return error_code.PasswordVerifyFail
 	}
 
-	return response.SUCCESS
+	return error_code.SUCCESS
 }
 
 func isUsernameExist(username string) (bool, *model.User) {
