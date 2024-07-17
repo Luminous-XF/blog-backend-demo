@@ -48,7 +48,7 @@ func TestCreateUser(t *testing.T) {
 		Username: "IU",
 		Password: utils.Md5("abc@123" + salt),
 		Salt:     salt,
-		Email:    utils.MakeStr(10, utils.ALAlpha) + "@gmail.com",
+		Email:    utils.MakeStr(10, utils.Alpha) + "@gmail.com",
 	}
 
 	if err := database.CreateUser(&user); err != nil {
