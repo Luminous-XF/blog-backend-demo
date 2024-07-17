@@ -3,11 +3,17 @@ package database
 import (
 	"blog-backend/global"
 	"blog-backend/model"
+	"github.com/google/uuid"
 )
 
 // GetPostById 通过帖子 id 查询帖子
 func GetPostById(id uint) (post *model.Post, err error) {
 	err = global.GDB.First(&post, id).Error
+	return post, err
+}
+
+func GetPostByUUID(uuid uuid.UUID) (post *model.Post, err error) {
+	err = global.GDB.Where("uuid = ?", uuid).First(&post).Error
 	return post, err
 }
 

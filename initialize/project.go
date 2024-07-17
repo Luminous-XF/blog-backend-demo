@@ -46,6 +46,11 @@ func InitProject() error {
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	// 初始化参数校验工具
+	if validate := initValidator(); validate == nil {
+		return errors.New("初始化校验器失败!")
+	}
+
 	if err := s.ListenAndServe(); err != nil {
 		return errors.New("System Server Start Error!")
 	}

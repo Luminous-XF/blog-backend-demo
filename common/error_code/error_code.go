@@ -22,6 +22,7 @@ const (
 	PasswordCanNotBlank                            // 密码不能为空
 	IllegalPasswordLength                          // 密码长度应该在8-16个字符之间
 	PasswordVerifyFail                             // 密码校验失败
+	IllegalUUIDFormat                              // UUID 格式错误
 )
 
 // 6xxxx 数据库相关错误
@@ -43,6 +44,7 @@ var errorMsg = map[ErrorCode]string{
 	PasswordCanNotBlank:   "The password field cannot be left blank.",
 	IllegalPasswordLength: "Password length should be between 8-16 characters.",
 	PasswordVerifyFail:    "The password you entered is incorrect. Please try again.",
+	IllegalUUIDFormat:     "Invalid UUID format.",
 
 	DatabaseError:     "Database Error.",
 	QueryPostListFail: "Unable to Fetch Post List.",

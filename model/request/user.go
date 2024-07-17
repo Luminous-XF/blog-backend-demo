@@ -1,6 +1,6 @@
 package request
 
 type LoginByUsernameAndPasswordRequest struct {
-	Username string `binding:"required" json:"username"`
-	Password string `binding:"required" json:"password"`
+	Username string `json:"username" binding:"required,min=3,max=16,username-charset"`
+	Password string `json:"password" binding:"required,min=8,max=16,password-charset"`
 }

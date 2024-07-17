@@ -9,5 +9,6 @@ func InitPostRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("posts")
 	{
 		UserRouter.POST("", v1.GetPostList)
+		UserRouter.POST("/uuid", v1.GetPostInfoByUUID)
 	}
 }
