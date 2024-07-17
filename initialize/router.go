@@ -11,10 +11,18 @@ func initRouters() (router *gin.Engine) {
 	router.Use(middleware.Cors())
 	router.Use(middleware.AddTracID())
 
-	privateGroupV1 := router.Group("v1")
+	publicGroupV1 := router.Group("v1")
 	{
-		routers.InitUserRouter(privateGroupV1)
-		routers.InitPostRouter(privateGroupV1)
+		routers.InitBaseRouter(publicGroupV1)
+		routers.InitUserPublicRouter(publicGroupV1)
+		routers.InitPostPublicRouter(publicGroupV1)
+	}
+
+	privateGroupV1 := router.Group("v1")
+	privateGroupV1.Use(middleware.JWTAuth())
+	{
+		routers.InitUserPrivateRouter(privateGroupV1)
+		routers.InitPostPrivateRouter(privateGroupV1)
 	}
 
 	return router

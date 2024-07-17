@@ -8,6 +8,7 @@ type Config struct {
 	LogConfig      LogConfig      `yaml:"log" mapstructure:"log"`
 	MySQLConfig    MySQLConfig    `yaml:"mysql" mapstructure:"mysql"`
 	DatabaseConfig DatabaseConfig `yaml:"database" mapstructure:"database"`
+	JWTConfig      JWTConfig      `yaml:"jwt" mapstructure:"jwt"`
 }
 
 // LogConfig 日志配置信息
@@ -38,4 +39,11 @@ type ServerConfig struct {
 	Addr         int           `yaml:"addr" mapstructure:"addr"`
 	ReadTimeout  time.Duration `yaml:"readTimeout" mapstructure:"readTimeout"`
 	WriteTimeout time.Duration `yaml:"writeTimeout" mapstructure:"writeTimeout"`
+}
+
+// JWTConfig 配置信息
+type JWTConfig struct {
+	SigningKey  string `yaml:"signingKey"`
+	ExpiresTime int64  `yaml:"expiresTime"`
+	BufferTime  int64  `yaml:"bufferTime"`
 }

@@ -5,9 +5,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func InitUserRouter(Router *gin.RouterGroup) {
+func InitUserPublicRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("users")
 	{
-		UserRouter.POST("/login", v1.Login)
+		UserRouter.POST("/uuid", v1.CreateTokenByUsernamePassword)
+	}
+}
+
+func InitUserPrivateRouter(Router *gin.RouterGroup) {
+	UserRouter := Router.Group("users")
+	{
+		UserRouter.PUT("/uuid", v1.CreateTokenByUsernamePassword)
 	}
 }

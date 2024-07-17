@@ -27,4 +27,9 @@ database:
   user: wxf
   password: wK4&nW8*wM9_pV9#
 
-
+# JWT 鉴权相关配置
+jwt:
+  signingKey: W=JKFudTMesg'(-Jq_}x#xc<2t=mVINy
+  # token 过期时长
+  expiresTime: 604800
+  bufferTime: 604800

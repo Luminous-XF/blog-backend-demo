@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Login(ctx *gin.Context) {
+func CreateTokenByUsernamePassword(ctx *gin.Context) {
 	var formData request.LoginByUsernameAndPasswordRequest
 	if err := ctx.ShouldBindBodyWithJSON(&formData); err != nil {
 		global.Logger.Errorf("TraceID:'%s' ErrorCode:%d ErrorInfo:'%s'",
@@ -21,9 +21,9 @@ func Login(ctx *gin.Context) {
 		return
 	}
 
-	if code := service.LoginByUsernameAndPassword(formData); !error_code.IsSuccess(code) {
+	if loginResponse, code := service.LoginByUsernameAndPassword(formData); !error_code.IsSuccess(code) {
 		response.CommonFailed(code, error_code.ErrMsg(code), ctx)
 	} else {
-		response.SuccessWithMessage(code, error_code.ErrMsg(code), ctx)
+		response.Created(loginResponse, error_code.ErrMsg(code), ctx)
 	}
 }

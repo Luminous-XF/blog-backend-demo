@@ -16,20 +16,23 @@ const (
 
 // 41xxx User 模块错误
 const (
-	UsernameIsNotExist    ErrorCode = iota + 41000 // 用户名不存在
-	UsernameCanNotBlank                            // 用户名不能为空
-	IllegalUsernameLength                          // 用户名长度应该在3-16字符之间
-	PasswordCanNotBlank                            // 密码不能为空
-	IllegalPasswordLength                          // 密码长度应该在8-16个字符之间
-	PasswordVerifyFail                             // 密码校验失败
-	IllegalUUIDFormat                              // UUID 格式错误
+	UsernameIsNotExist   ErrorCode = iota + 41000 // 用户名不存在
+	PasswordVerifyFailed                          // 密码校验失败
+
+	AuthFailed       // 认证失败
+	AuthTokenNULL    // 没有 Token
+	AuthTokenExpired // Token 已过期
+	AuthTokenNotValidYet
+	AuthTokenMalformed
+	AuthTokenInvalid
+	AuthTokenCreateFailed // Token 创建失败
 )
 
 // 6xxxx 数据库相关错误
 // 62xxx Post 模块错误
 const (
-	DatabaseError     ErrorCode = iota + 62000 // 数据库错误
-	QueryPostListFail                          // 查询帖子列表错误
+	DatabaseError       ErrorCode = iota + 62000 // 数据库错误
+	QueryPostListFailed                          // 查询帖子列表错误
 )
 
 var errorMsg = map[ErrorCode]string{
@@ -38,16 +41,19 @@ var errorMsg = map[ErrorCode]string{
 	ERROR:          "Error!",
 	ParamBindError: "There was an error with the parameters provided.",
 
-	UsernameIsNotExist:    "The entered username does not exist.",
-	UsernameCanNotBlank:   "The username field cannot be left blank.",
-	IllegalUsernameLength: "Username length should be between 8-16 characters.",
-	PasswordCanNotBlank:   "The password field cannot be left blank.",
-	IllegalPasswordLength: "Password length should be between 8-16 characters.",
-	PasswordVerifyFail:    "The password you entered is incorrect. Please try again.",
-	IllegalUUIDFormat:     "Invalid UUID format.",
+	UsernameIsNotExist:   "The entered username does not exist.",
+	PasswordVerifyFailed: "The password you entered is incorrect. Please try again.",
 
-	DatabaseError:     "Database Error.",
-	QueryPostListFail: "Unable to Fetch Post List.",
+	AuthFailed:            "Auth failed.",
+	AuthTokenNULL:         "No authorization token found.",
+	AuthTokenExpired:      "Auth token is expired.",
+	AuthTokenNotValidYet:  "Auth token is not valid.",
+	AuthTokenMalformed:    "Auth token malformed.",
+	AuthTokenInvalid:      "Auth token is invalid.",
+	AuthTokenCreateFailed: "Token create failed.",
+
+	DatabaseError:       "Database Error.",
+	QueryPostListFailed: "Unable to Fetch Post List.",
 }
 
 func ErrMsg(code ErrorCode) string {

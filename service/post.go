@@ -12,7 +12,7 @@ func GetPostList(formData request.PageInfoRequest) (postResponseList []*response
 	offset := formData.PageSize * (formData.Page - 1)
 	postList, err := database.GetPostList(offset, limit)
 	if err != nil {
-		return nil, error_code.QueryPostListFail
+		return nil, error_code.QueryPostListFailed
 	}
 
 	for _, post := range postList {
