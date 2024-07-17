@@ -12,13 +12,13 @@ func TestGenerateString(t *testing.T) {
 		str = utils.MakeStr(16, utils.DIGIT)
 		fmt.Println(str)
 
-		str = utils.MakeStr(16, utils.ALPHA)
+		str = utils.MakeStr(16, utils.ALAlpha)
 		fmt.Println(str)
 
-		str = utils.MakeStr(6, utils.DIGIT_ALPHA)
+		str = utils.MakeStr(6, utils.ALNUM)
 		fmt.Println(str)
 
-		str = utils.MakeStr(16, utils.DIGIT_ALPHA_PUNCT)
+		str = utils.MakeStr(16, utils.DigitAlphaPunct)
 		fmt.Println(str)
 	}
 }

@@ -22,19 +22,18 @@ var (
 type MakeStrMode int
 
 const (
-	// ALPHA 仅包含大小写字母
-	ALPHA MakeStrMode = iota
-	// DIGIT 仅包含数字
-	DIGIT
-	// DIGIT_ALPHA 包含数字和大小写字母
-	DIGIT_ALPHA
-	// DIGIT_ALPHA_PUNCT 包含数字、字母、特殊符号
-	DIGIT_ALPHA_PUNCT
+	// Alpha 仅包含大小写字母
+	Alpha MakeStrMode = iota
+	// Digit 仅包含数字
+	Digit
+	// DigitAlpha 包含数字和大小写字母
+	DigitAlpha
+	// DigitAlphaPunct 包含数字、字母、特殊符号
+	DigitAlphaPunct
 )
 
 var src = rand.NewSource(time.Now().UnixNano())
 
-// MakeStr 生成包含大小写字母指定长度随机字符串
 func makeStr(length int, letterBytes string) string {
 	calMakeStrInfo()
 	str := make([]byte, length)
@@ -60,16 +59,16 @@ func calMakeStrInfo() {
 
 func MakeStr(length int, mode MakeStrMode) string {
 	switch mode {
-	case DIGIT:
+	case Digit:
 		letterIdxBits = 4
 		return makeStr(length, digitLetterBytes)
-	case ALPHA:
+	case Alpha:
 		letterIdxBits = 6
 		return makeStr(length, alphaLetterBytes)
-	case DIGIT_ALPHA:
+	case DigitAlpha:
 		letterIdxBits = 6
 		return makeStr(length, digitAndAlphaLetterBytes)
-	case DIGIT_ALPHA_PUNCT:
+	case DigitAlphaPunct:
 		letterIdxBits = 7
 		return makeStr(length, allLetterBytes)
 	default:
