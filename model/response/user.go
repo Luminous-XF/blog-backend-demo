@@ -16,3 +16,7 @@ type LoginResponse struct {
 	User  UserResponse `json:"user"`
 	Token string       `json:"token"`
 }
+
+type SendVerifyCodeWithEmailResponse struct {
+	RequestID string `json:"request_id"`
+}

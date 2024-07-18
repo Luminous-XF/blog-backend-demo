@@ -23,6 +23,12 @@ func GetUserByUUID(uuid string) (user *model.User, err error) {
 	return user, err
 }
 
+// GetUserByEmail 通过 email 查找用户
+func GetUserByEmail(email string) (user *model.User, err error) {
+	err = global.GDB.Where("email = ?", email).First(&user).Error
+	return user, err
+}
+
 // CreateUser 新建用户
 func CreateUser(user *model.User) error {
 	return global.GDB.Create(user).Error

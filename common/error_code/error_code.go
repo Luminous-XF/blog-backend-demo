@@ -16,8 +16,10 @@ const (
 
 // 41xxx User 模块错误
 const (
-	UsernameIsNotExist   ErrorCode = iota + 41000 // 用户名不存在
-	PasswordVerifyFailed                          // 密码校验失败
+	UsernameIsNotExist    ErrorCode = iota + 41000 // 用户名不存在
+	PasswordVerifyFailed                           // 密码校验失败
+	UsernameAlreadyExists                          // 用户名已存在
+	EmailAlreadyInUse                              // 邮箱已被使用
 
 	AuthFailed       // 认证失败
 	AuthTokenNULL    // 没有 Token
@@ -41,8 +43,10 @@ var errorMsg = map[ErrorCode]string{
 	ERROR:          "Error!",
 	ParamBindError: "There was an error with the parameters provided.",
 
-	UsernameIsNotExist:   "The entered username does not exist.",
-	PasswordVerifyFailed: "The password you entered is incorrect. Please try again.",
+	UsernameIsNotExist:    "The entered username does not exist.",
+	PasswordVerifyFailed:  "The password you entered is incorrect. Please try again.",
+	UsernameAlreadyExists: "The username already exists.",
+	EmailAlreadyInUse:     "The email address is already in use.",
 
 	AuthFailed:            "Auth failed.",
 	AuthTokenNULL:         "No authorization token found.",

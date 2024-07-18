@@ -10,8 +10,8 @@ import (
 )
 
 func CreateTokenByUsernamePassword(ctx *gin.Context) {
-	var formData request.LoginByUsernameAndPasswordRequest
-	if err := ctx.ShouldBindBodyWithJSON(&formData); err != nil {
+	var requestData request.LoginByUsernameAndPasswordRequest
+	if err := ctx.ShouldBindBodyWithJSON(&requestData); err != nil {
 		global.Logger.Errorf("TraceID:'%s' ErrorCode:%d ErrorInfo:'%s'",
 			ctx.GetHeader("Trace-Id"),
 			error_code.ParamBindError,
@@ -21,9 +21,28 @@ func CreateTokenByUsernamePassword(ctx *gin.Context) {
 		return
 	}
 
-	if loginResponse, code := service.LoginByUsernameAndPassword(formData); !error_code.IsSuccess(code) {
+	if responseData, code := service.LoginByUsernameAndPassword(requestData); !error_code.IsSuccess(code) {
 		response.CommonFailed(code, error_code.ErrMsg(code), ctx)
 	} else {
-		response.Created(loginResponse, error_code.ErrMsg(code), ctx)
+		response.Created(responseData, error_code.ErrMsg(code), ctx)
+	}
+}
+
+func SendVerifyCodeWithEmail(ctx *gin.Context) {
+	var requestData request.SendVerifyCodeWithEmailRequest
+	if err := ctx.ShouldBindBodyWithJSON(&requestData); err != nil {
+		global.Logger.Errorf("TraceID:'%s' ErrorCode:%d ErrorInfo:'%s'",
+			ctx.GetHeader("Trace-Id"),
+			error_code.ParamBindError,
+			err.Error(),
+		)
+		response.CommonFailed(error_code.ParamBindError, error_code.ErrMsg(error_code.ParamBindError), ctx)
+		return
+	}
+
+	if responseData, code := service.SendVerifyCodeWithEmail(requestData, ctx.GetHeader("Trace-Id")); !error_code.IsSuccess(code) {
+		response.CommonFailed(code, error_code.ErrMsg(code), ctx)
+	} else {
+		response.CommonSuccess(code, responseData, error_code.ErrMsg(code), ctx)
 	}
 }

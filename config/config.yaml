@@ -33,3 +33,14 @@ jwt:
   # token 过期时长
   expiresTime: 604800
   bufferTime: 604800
+
+# Redis 相关配置
+redis:
+  addr: localhost:6379
+  password:
+  db: 0
+
+# 邮件相关配置
+email:
+  address: 1094038421@qq.com
+  licenseKey: grgwzdnvqphkhcgj

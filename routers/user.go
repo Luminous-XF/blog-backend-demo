@@ -9,6 +9,7 @@ func InitUserPublicRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("users")
 	{
 		UserRouter.POST("/uuid", v1.CreateTokenByUsernamePassword)
+		UserRouter.POST("/verify-code/using-email", v1.SendVerifyCodeWithEmail)
 	}
 }
 

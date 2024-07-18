@@ -9,6 +9,8 @@ type Config struct {
 	MySQLConfig    MySQLConfig    `yaml:"mysql" mapstructure:"mysql"`
 	DatabaseConfig DatabaseConfig `yaml:"database" mapstructure:"database"`
 	JWTConfig      JWTConfig      `yaml:"jwt" mapstructure:"jwt"`
+	RedisConfig    RedisConfig    `yaml:"redis" mapstructure:"redis"`
+	EmailConfig    EmailConfig    `yaml:"email" mapstructure:"email"`
 }
 
 // LogConfig 日志配置信息
@@ -41,9 +43,22 @@ type ServerConfig struct {
 	WriteTimeout time.Duration `yaml:"writeTimeout" mapstructure:"writeTimeout"`
 }
 
-// JWTConfig 配置信息
+// JWTConfig JWT 配置信息
 type JWTConfig struct {
 	SigningKey  string `yaml:"signingKey"`
 	ExpiresTime int64  `yaml:"expiresTime"`
 	BufferTime  int64  `yaml:"bufferTime"`
+}
+
+// RedisConfig Redis 配置信息
+type RedisConfig struct {
+	Addr     string `yaml:"addr" mapstructure:"addr"`
+	Password string `yaml:"password" mapstructure:"password"`
+	DB       int    `yaml:"db" mapstructure:"db"`
+}
+
+// EmailConfig 邮件相关配置
+type EmailConfig struct {
+	Addr       string `yaml:"address"`
+	LicenseKey string `yaml:"license"`
 }
