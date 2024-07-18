@@ -33,14 +33,14 @@ func InitProject() error {
 	}
 
 	// gin router 路由配置
-	routers := initRouters()
+	engine := initGin()
 	addr := fmt.Sprintf(":%d", global.CONFIG.ServerConfig.Addr)
 	ReadTimeout := global.CONFIG.ServerConfig.ReadTimeout
 	WriteTimeout := global.CONFIG.ServerConfig.WriteTimeout
 
 	s := &http.Server{
 		Addr:           addr,
-		Handler:        routers,
+		Handler:        engine,
 		ReadTimeout:    ReadTimeout * time.Second,
 		WriteTimeout:   WriteTimeout * time.Second,
 		MaxHeaderBytes: 1 << 20,
