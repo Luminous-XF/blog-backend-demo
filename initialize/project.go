@@ -29,7 +29,13 @@ func InitProject() error {
 	// gorm 初始化数据库
 	global.GDB = initDB()
 	if global.GDB == nil {
-		return errors.New("数据库连接失败!")
+		return errors.New("MySQL 连接失败!")
+	}
+
+	// redis 初始化
+	global.RDB = initRedis()
+	if global.RDB == nil {
+		return errors.New("Redis 连接失败!")
 	}
 
 	// gin router 路由配置

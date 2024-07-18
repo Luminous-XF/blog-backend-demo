@@ -59,6 +59,6 @@ type RedisConfig struct {
 
 // EmailConfig 邮件相关配置
 type EmailConfig struct {
-	Addr       string `yaml:"address"`
+	Addr       string `yaml:"addr"`
 	LicenseKey string `yaml:"license"`
 }

@@ -42,5 +42,5 @@ redis:
 
 # 邮件相关配置
 email:
-  address: 1094038421@qq.com
+  addr: 1094038421@qq.com
   licenseKey: grgwzdnvqphkhcgj
